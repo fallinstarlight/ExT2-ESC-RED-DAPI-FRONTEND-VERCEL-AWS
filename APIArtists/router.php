@@ -1,17 +1,20 @@
 <?php
-// router.php — for `php -S`. Serves static files (e.g. photos/...) if they
-// exist on disk; otherwise delegates to index.php for API routing.
-
+// router.php — for `php -S`. Serves /photos/** as static files, else -> index.php.
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
-// Serve existing static files directly (photos, favicon, etc.)
-if ($path !== '/' && $path !== '/index.php') {
-    $candidate = __DIR__ . $path;
-    $real      = realpath($candidate);
-    // Only serve files actually inside this app directory.
+$staticDirs = ['/photos/', '/favicon.ico'];
+$isStatic = false;
+foreach ($staticDirs as $d) {
+    if (str_starts_with($path, $d)) { $isStatic = true; break; }
+}
+
+if ($isStatic) {
+    $real = realpath(__DIR__ . $path);
     if ($real && str_starts_with($real, __DIR__ . DIRECTORY_SEPARATOR) && is_file($real)) {
-        return false; // let PHP's built-in server handle it
+        return false; // let PHP's built-in server stream the file
     }
+    http_response_code(404);
+    exit;
 }
 
 require __DIR__ . '/index.php';
