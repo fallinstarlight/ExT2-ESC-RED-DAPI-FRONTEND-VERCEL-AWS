@@ -45,7 +45,7 @@ export function describe(r) {
     };
   }
   if (r.kind === "album") {
-    const chips = [{ label: "album", kind: true }]; 
+    const chips = [{ label: "album", kind: true }];
     if (d.release_year) chips.push({ label: String(d.release_year) });
     if (d.rating != null)
       chips.push({ label: `★ ${Number(d.rating).toFixed(1)}`, accent: true });
@@ -113,8 +113,8 @@ export function renderRows(bodyEl, rows) {
         <p class="title">${escapeHtml(title)}</p>
         <p class="subtitle">${escapeHtml(subtitle || "")}</p>
         <div class="meta">${chips.map(c =>
-  `<span class="chip ${c.accent ? "accent" : ""} ${c.kind ? "kind" : ""}">${escapeHtml(c.label)}</span>`
-).join("")}</div>
+      `<span class="chip ${c.accent ? "accent" : ""} ${c.kind ? "kind" : ""}">${escapeHtml(c.label)}</span>`
+    ).join("")}</div>
       </div>`;
     frag.appendChild(el);
   }
