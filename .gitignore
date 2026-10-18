@@ -1,4 +1,4 @@
 *.py
 *.env
 photos/
-*.sql
+/*.sql
